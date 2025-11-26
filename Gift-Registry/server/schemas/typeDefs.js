@@ -2,10 +2,20 @@ const typeDefs = `
 
   scalar Date
 
+  input LoginInput {
+    userName: String!
+    password: String!
+  }
+
   type Users {
     _id: ID
-    userName: String
-    password: String
+    userName: String!
+    password: String!
+  }
+
+  type Auth {
+    token: String!
+    user: Users
   }
 
   type SpecificItems {
@@ -34,6 +44,7 @@ const typeDefs = `
 
   type Mutation {
     addUser(userName: String, password: String): Users! 
+    login(input: LoginInput): Auth
   }
 
 `;

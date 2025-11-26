@@ -96,27 +96,29 @@ function App() {
 
 
 
-  // const handleLogout = () => {
-  //   AuthService.logout().then(() => client.resetStore());
-  //   setIsLoggedIn(false);
-  // };
+  const handleLogout = () => {
+    AuthService.logout().then(() => client.resetStore());
+    setIsLoggedIn(false);
+  };
   
 
   return (
     <ApolloProvider client={client}>
-      {/* {isLoggedIn ? (
+      {isLoggedIn ? (
         <>
-          <Header handleLogout={handleLogout} user={user}/>
+          <Header 
+            handleLogout={handleLogout} 
+            user={user}
+          />
           <Outlet />
         </>
       ) : (
         <PleaseLogin setIsLoggedIn={setIsLoggedIn}/>
       )
-    } */}
+    }
     <>
-    <Header />
-    <Outlet />
-
+    {/* <Header />
+    <Outlet /> */}
     </>
     </ApolloProvider >
   )

@@ -9,3 +9,16 @@ export const ADD_USER = gql`
         }
     }
 `;
+
+export const LOGIN_USER = gql`
+    mutation login($input: LoginInput) {
+        login(input: $input) {
+            token
+            user {
+            _id
+            userName
+            password
+            }
+        }
+    }
+`;
