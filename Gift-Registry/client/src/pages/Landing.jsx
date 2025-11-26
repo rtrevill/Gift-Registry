@@ -14,7 +14,6 @@ export function Landing () {
     });
 const [listData, setListData] = useState()
     
-
     useEffect(()=>{
         if (data){
             setListData(data.getUsers);

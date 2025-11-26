@@ -1,6 +1,9 @@
-
+import { useContext } from "react";
+import { PageContext } from "../utils/pagecontext";
 
 export function Header ({handleLogout, user}) {
+
+    const data = useContext(PageContext)
 
     $( document ).ready(function() {
                 $(".dropdown-trigger").dropdown();
@@ -22,8 +25,8 @@ export function Header ({handleLogout, user}) {
                 <a href="#" class="center">Logged on as {user.userName}</a>
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul id="nav-mobile" class="left hide-on-med-and-down">
-                    <li><a href="/home">Home</a></li>
-                    <li><a href="/">LandingPage</a></li>
+                    <li id="home"><a href="/home" >Home</a></li>
+                    <li><a href="/" id="Landing">LandingPage</a></li>
                     <li class="active"><a href="/active">Registries</a></li>
                     <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
                 </ul>
@@ -34,7 +37,7 @@ export function Header ({handleLogout, user}) {
             <li><a href="" onClick={handleLogout}>Logout</a></li>
             <li><a href="badges.html">Components</a></li>
             <li><a href="collapsible.html">Javascript</a></li>
-            <li><a href="mobile.html">Mobile</a></li>
+            <li><a href="mobile.html">{data}</a></li>
         </ul>
         </>
     )

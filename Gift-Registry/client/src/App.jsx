@@ -5,9 +5,10 @@ import { ApolloProvider } from '@apollo/client/react';
 import {
   ApolloClient,
   InMemoryCache,
-  createHttpLink,
 } from "@apollo/client";
-
+import { HttpLink } from "@apollo/client/link/http";
+import { SetContextLink } from "@apollo/client/link/context";
+import { PageContext } from "./utils/pagecontext.jsx";
 
 const cache = new InMemoryCache();
 
@@ -16,7 +17,7 @@ if (storedCache) {
   cache.restore(JSON.parse(storedCache));
 }
 
-import { setContext } from "@apollo/client/link/context";
+// import { setContext } from "@apollo/client/link/context";
 
 import { Header } from './pages/header'
 import AuthService from "./utils/auth.js"; // Import your AuthService
@@ -24,12 +25,14 @@ import { PleaseLogin } from './pages/pleaselogin.jsx';
 
 
 // Constructs main GraphQL API endpoint
-const httpLink = createHttpLink({
+// const httpLink = createHttpLink({
+const httpLink = new HttpLink({
   uri: "/graphql",
 });
 
 // Constructs request middleware to attach JWT as `authorization` header to every request
-const authLink = setContext((_, { headers }) => {
+// const authLink = setContext((_, { headers }) => {
+  const authLink = new SetContextLink((_, { headers }) => {
   const token = localStorage.getItem("id_token");
   return {
     headers: {
@@ -66,7 +69,6 @@ client.onResetStore(() => {
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(AuthService.loggedIn()); // Set initial state based on AuthService
   const [user, setUser] = useState({}); // to pass basic user information to navbar
-
     // Check if user is logged in when component mounts and when localStorage changes
   useEffect(() => {
     // Update isLoggedIn when AuthService changes
@@ -100,25 +102,26 @@ function App() {
     AuthService.logout().then(() => client.resetStore());
     setIsLoggedIn(false);
   };
-  
+
+  const sharedData = 'Hello from Context';
 
   return (
     <ApolloProvider client={client}>
       {isLoggedIn ? (
         <>
-          <Header 
-            handleLogout={handleLogout} 
-            user={user}
-          />
-          <Outlet />
+          <PageContext.Provider value={sharedData}>
+            <Header 
+              handleLogout={handleLogout} 
+              user={user}
+              />
+            <Outlet />
+          </PageContext.Provider>
         </>
       ) : (
         <PleaseLogin setIsLoggedIn={setIsLoggedIn}/>
       )
     }
     <>
-    {/* <Header />
-    <Outlet /> */}
     </>
     </ApolloProvider >
   )

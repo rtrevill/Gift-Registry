@@ -1,4 +1,7 @@
-export function Home () {
+import { useEffect } from "react"
+
+export function Home ({setpage}) {
+
     return (
         <div>
             <h1>This is the Home Page</h1>
