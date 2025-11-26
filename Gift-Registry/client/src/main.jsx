@@ -7,6 +7,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Home } from './pages/Home.jsx';
 import { Landing } from './pages/Landing.jsx'
 import { ErrorPage } from './pages/errorpage.jsx';
+import { ActiveReg } from './pages/activeregistries.jsx';
+import { SingleRegistry } from './pages/singleregistry.jsx';
 
 
 const router = createBrowserRouter([
@@ -22,6 +24,14 @@ const router = createBrowserRouter([
       {
         path: 'home',
         element: <Home />
+      },
+      {
+        path: 'active',
+        element: <ActiveReg />
+      },
+      { 
+        path: 'singlecard/:regId',
+        element: <SingleRegistry />
       }
     ]
   }

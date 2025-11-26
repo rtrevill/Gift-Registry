@@ -1,11 +1,15 @@
-const { User } = require('../models');
+const { User, Registry } = require('../models');
 
 const resolvers = {
   Query: {
 
     getUsers: async() => {
       return await User.find({})
-    }
+    },
+
+    getLists: async() => {
+      return await Registry.find({}).populate('owner')
+    },
 
   },
 
