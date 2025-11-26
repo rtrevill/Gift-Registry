@@ -37,7 +37,7 @@ export function Header ({handleLogout, user}) {
             <li><a href="" onClick={handleLogout}>Logout</a></li>
             <li><a href="badges.html">Components</a></li>
             <li><a href="collapsible.html">Javascript</a></li>
-            <li><a href="mobile.html">{data}</a></li>
+            <li><a href="mobile.html">{data.contextValue}</a></li>
         </ul>
         </>
     )

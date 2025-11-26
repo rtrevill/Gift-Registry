@@ -2,8 +2,10 @@ import './Landing.css';
 import { useQuery, useMutation } from '@apollo/client/react';
 import { QUERY_ALL } from '../utils/queries';
 import { ADD_USER } from '../utils/mutations';
-import { useState, useEffect } from 'react';
-import { UserList } from '../components/userList'
+import { useState, useEffect, useContext } from 'react';
+import { UserList } from '../components/userList';
+import { PageContext } from '../utils/pagecontext';
+
 
 export function Landing () {
     const { loading, error, data } = useQuery(QUERY_ALL);
@@ -12,7 +14,13 @@ export function Landing () {
         namey: '',
         pword: '', 
     });
-const [listData, setListData] = useState()
+    const [listData, setListData] = useState()
+    const { setContextValue } = useContext(PageContext);
+
+
+    useEffect(() => {
+        setContextValue('Landing');
+    },[])
     
     useEffect(()=>{
         if (data){

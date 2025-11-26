@@ -103,13 +103,15 @@ function App() {
     setIsLoggedIn(false);
   };
 
-  const sharedData = 'Hello from Context';
+  const [contextValue, setContextValue] = useState('initial value');
+  // const contextData = {value: 5, setValue: 8};
+
 
   return (
     <ApolloProvider client={client}>
       {isLoggedIn ? (
         <>
-          <PageContext.Provider value={sharedData}>
+          <PageContext.Provider value={{contextValue, setContextValue}}>
             <Header 
               handleLogout={handleLogout} 
               user={user}
