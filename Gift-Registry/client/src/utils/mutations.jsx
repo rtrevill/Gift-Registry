@@ -38,3 +38,14 @@ export const ADD_REGISTRY = gql`
         }
     }
 `;
+
+export const REMOVE_REGISTRY = gql`
+    mutation removeRegistry($regId: ID, $ownerId: ID) {
+        removeRegistry(regId: $regId, ownerId: $ownerId) {
+            _id
+            occasion
+            title
+            valid_to
+        }
+    }
+`;

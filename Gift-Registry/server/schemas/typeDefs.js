@@ -46,6 +46,7 @@ const typeDefs = `
     addUser(userName: String, password: String): Users! 
     login(input: LoginInput): Auth
     addRegistry(title: String, occasion: String, valid: Date, owner: ID): Registry
+    removeRegistry(regId: ID, ownerId: ID):[Registry]
   }
 
 `;

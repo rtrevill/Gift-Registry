@@ -48,6 +48,17 @@ const resolvers = {
       console.log(valid, dateObject)
       const addReg = (await Registry.create({title, occasion, valid_to: dateObject, owner})).populate("owner")
       return addReg;
+    },
+
+    removeRegistry: async(parent, {regId, ownerId}) => {
+      const removeone = await Registry.findByIdAndDelete(regId)
+      if (removeone){
+        const userregs = await Registry.find({owner: ownerId})
+        return userregs
+      }
+      else{
+        return AuthenticationError
+      }
     }
   }
 };
