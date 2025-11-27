@@ -45,6 +45,7 @@ const typeDefs = `
   type Mutation {
     addUser(userName: String, password: String): Users! 
     login(input: LoginInput): Auth
+    addRegistry(title: String, occasion: String, valid: Date, owner: ID): Registry
   }
 
 `;

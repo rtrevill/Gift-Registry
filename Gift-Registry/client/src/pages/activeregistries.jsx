@@ -1,10 +1,18 @@
 import { QUERY_LISTS } from "../utils/queries";
 import { useQuery } from "@apollo/client/react";
+import { useContext, useEffect } from "react";
+import { PageContext } from "../utils/pagecontext";
 
 export function ActiveReg () {
     const {loading, error, data} = useQuery(QUERY_LISTS);
 
     console.log(data)
+
+    const {setContextValue } = useContext(PageContext);
+
+    useEffect(() => {
+        setContextValue('Registries')
+    },[])
     
     return (
         <div>
@@ -35,6 +43,7 @@ export function ActiveReg () {
             
                         ))
                     }
+                   <a class="waves-effect waves-light btn" href="/new">Create New</a> 
                 </div>
             }
         </div>

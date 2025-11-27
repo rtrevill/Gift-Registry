@@ -9,6 +9,7 @@ import { Landing } from './pages/Landing.jsx'
 import { ErrorPage } from './pages/errorpage.jsx';
 import { ActiveReg } from './pages/activeregistries.jsx';
 import { SingleRegistry } from './pages/singleregistry.jsx';
+import { CreateNewReg } from './pages/createnewreg.jsx';
 
 
 const router = createBrowserRouter([
@@ -32,7 +33,11 @@ const router = createBrowserRouter([
       { 
         path: 'singlecard/:regId',
         element: <SingleRegistry />
-      }
+      },
+      {
+        path: 'new',
+        element: <CreateNewReg />
+      },
     ]
   }
 ]);

@@ -22,3 +22,19 @@ export const LOGIN_USER = gql`
         }
     }
 `;
+
+export const ADD_REGISTRY = gql`
+    mutation addRegistry($title: String, $occasion: String, $valid: Date, $owner: ID) {
+        addRegistry(title: $title, occasion: $occasion, valid: $valid, owner: $owner) {
+            _id
+            title
+            occasion
+            valid_to
+            participants
+            owner {
+            _id
+            userName
+            }
+        }
+    }
+`;

@@ -1,6 +1,10 @@
+const { DateConversion } = require('../utils/dateconversion');
+
 const { User, Registry } = require('../models');
 
 const { signToken, AuthenticationError } = require("../utils/auth");
+
+
 
 const resolvers = {
   Query: {
@@ -38,6 +42,13 @@ const resolvers = {
       const token = signToken(user);
       return { token, user};
     },
+
+    addRegistry: async(parent, {title, occasion, valid, owner}) => {
+      const dateObject = DateConversion(valid)
+      console.log(valid, dateObject)
+      const addReg = (await Registry.create({title, occasion, valid_to: dateObject, owner})).populate("owner")
+      return addReg;
+    }
   }
 };
 

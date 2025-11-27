@@ -1,6 +1,12 @@
-import { useEffect } from "react"
+import { useEffect, useContext } from "react";
+import { PageContext } from "../utils/pagecontext";
 
-export function Home ({setpage}) {
+export function Home () {
+    const { setContextValue } = useContext(PageContext)
+
+    useEffect(() => {
+        setContextValue('home')
+    },[])
 
     return (
         <div>
