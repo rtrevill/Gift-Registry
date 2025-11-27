@@ -43,9 +43,23 @@ export const REMOVE_REGISTRY = gql`
     mutation removeRegistry($regId: ID, $ownerId: ID) {
         removeRegistry(regId: $regId, ownerId: $ownerId) {
             _id
-            occasion
             title
+            occasion
             valid_to
+            owner {
+            _id
+            userName
+            password
+            }
+            participants
+            general_items
+            specific_items {
+            item_type
+            colour
+            size
+            brands
+            preferred_retailers
+            }
         }
     }
 `;

@@ -53,7 +53,7 @@ const resolvers = {
     removeRegistry: async(parent, {regId, ownerId}) => {
       const removeone = await Registry.findByIdAndDelete(regId)
       if (removeone){
-        const userregs = await Registry.find({owner: ownerId})
+        const userregs = await Registry.find({owner: ownerId}).populate('owner')
         return userregs
       }
       else{

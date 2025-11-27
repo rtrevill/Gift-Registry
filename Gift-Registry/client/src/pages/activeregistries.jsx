@@ -8,27 +8,25 @@ import AuthService from "../utils/auth";
 export function ActiveReg () {
     const {loading, error, data} = useQuery(QUERY_LISTS);
     const [regList, setRegList] = useState();
-    const [RemoveSingle, {data2, loading2, error2}] = useMutation(REMOVE_REGISTRY, {onSuccess: {updateList}})
+    const [RemoveSingle, {data: data2, loading: loading2, error: error2}] = useMutation(REMOVE_REGISTRY)
 
-    console.log(data)
+    // console.log(data, regList, data2)
 
     const {setContextValue } = useContext(PageContext);
 
     useEffect(() => {
         setContextValue('Registries')
         if(data){
-            setRegList(data)
+            setRegList(data.getLists)
         }
     },[data])
-
-    function updateList(){
-        setRegList(data2)
-    }
 
     const deleteReg = async(id) => {
         const userID = AuthService.getProfile().data._id;
         try{
-            await RemoveSingle({variables: {regId: id, ownerId: userID}})
+            const newList = await RemoveSingle({variables: {regId: id, ownerId: userID}})
+            console.log(newList.data);
+            setRegList(newList.data.removeRegistry);
         }catch(err){
             console.log(err)
         }
@@ -44,7 +42,7 @@ export function ActiveReg () {
                         :
                 <div>
                     {
-                        regList.getLists.map(single => (
+                        regList.map(single => (
                               <div class="row" key={single._id}>
                                 <div class="col s12 m6">
                                 <div class="card blue-grey darken-1">
