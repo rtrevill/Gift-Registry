@@ -70,6 +70,10 @@ const resolvers = {
       }
     },
 
+    sendInvite: async(parent, {hostId, guestId, regId}) => {
+      return "Received"
+    }
+
   }
 };
 

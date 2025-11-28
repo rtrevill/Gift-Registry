@@ -54,15 +54,6 @@ export function Landing () {
         }
     }
 
-    // const sendData = async(data) => {
-    //     const userInput = data.target.username.value;
-    //     const passInput = data.target.password.value;
-    //     event.preventDefault();
-    //     // console.log(event.target.username.value, event.target.password.value)
-    //     const userDetails = await addUser( { variables: { userName: userInput, password: passInput}})
-    //     console.log(userDetails);
-    // }
-
 
     return (
         <div>

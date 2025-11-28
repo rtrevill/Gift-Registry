@@ -11,6 +11,7 @@ const typeDefs = `
     _id: ID
     userName: String!
     password: String!
+    invites: [Invites]
   }
 
   type Auth {
@@ -37,6 +38,12 @@ const typeDefs = `
     specific_items: [SpecificItems]
   }
 
+  type Invites {
+    _id: ID
+    host_user: Users
+    registries: [Registry]
+  }
+
   type Query {
     getUsers: [Users]
     getLists: [Registry]
@@ -48,6 +55,7 @@ const typeDefs = `
     login(input: LoginInput): Auth
     addRegistry(title: String, occasion: String, valid: Date, owner: ID): Registry
     removeRegistry(regId: ID, ownerId: ID):[Registry]
+    sendInvite(hostId: ID, guestId: ID, regId: ID): String
   }
 
 `;
