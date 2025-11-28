@@ -55,7 +55,7 @@ const typeDefs = `
     login(input: LoginInput): Auth
     addRegistry(title: String, occasion: String, valid: Date, owner: ID): Registry
     removeRegistry(regId: ID, ownerId: ID):[Registry]
-    sendInvite(hostId: ID, guestId: ID, regId: ID): String
+    sendInvite(hostId: ID, guestId: ID, regId: ID): Users
   }
 
 `;
