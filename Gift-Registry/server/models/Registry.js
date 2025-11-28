@@ -1,5 +1,4 @@
 const mongoose = require ("mongoose");
-
 const Schema = mongoose.Schema;
 
 const specificSchema = new Schema({
@@ -43,10 +42,10 @@ const regSchema = new Schema({
         ref: "User",
         required: true,
     },
-    participants: {
+    participants:[{
         type: Schema.Types.ObjectId,
         ref: "User",
-    },
+    }],
     general_items: {
         type:[String],
         required: false,

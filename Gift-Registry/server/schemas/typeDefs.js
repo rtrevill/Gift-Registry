@@ -32,7 +32,7 @@ const typeDefs = `
     occasion: String
     valid_to: Date
     owner: Users
-    participants: ID
+    participants: [Users]
     general_items: [String]
     specific_items: [SpecificItems]
   }
@@ -40,6 +40,7 @@ const typeDefs = `
   type Query {
     getUsers: [Users]
     getLists: [Registry]
+    getUserLists(ownerId: ID!): [Registry]
   }
 
   type Mutation {

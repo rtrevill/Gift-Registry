@@ -34,3 +34,23 @@ export const QUERY_LISTS = gql`
         }
     }
 `;
+
+export const FIND_USER_LISTS = gql`
+    query GetUserLists($ownerId: ID!) {
+    getUserLists(ownerId: $ownerId) {
+        _id
+        title
+        occasion
+        valid_to
+        owner {
+        _id
+        userName
+        }
+        participants {
+        _id
+        userName
+        }
+        general_items
+    }
+    }
+`;

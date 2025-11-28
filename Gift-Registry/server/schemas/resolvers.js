@@ -3,6 +3,7 @@ const { DateConversion } = require('../utils/dateconversion');
 const { User, Registry } = require('../models');
 
 const { signToken, AuthenticationError } = require("../utils/auth");
+// const { GET_USER_LISTS } = require('../../client/src/utils/mutations');
 
 
 
@@ -16,6 +17,14 @@ const resolvers = {
     getLists: async() => {
       return await Registry.find({}).populate('owner')
     },
+
+    getUserLists: async(parent, {ownerId}) => {
+      console.log(ownerId)
+      const userregs = await Registry.find({ "$or": [ { "owner": ownerId }, { "participants": ownerId } ] }).populate("owner").populate("participants")
+      return userregs
+    },
+
+
 
   },
 
@@ -53,13 +62,14 @@ const resolvers = {
     removeRegistry: async(parent, {regId, ownerId}) => {
       const removeone = await Registry.findByIdAndDelete(regId)
       if (removeone){
-        const userregs = await Registry.find({owner: ownerId}).populate('owner')
+        const userregs = await Registry.find({ "$or": [ { "owner": ownerId }, { "participants": ownerId } ] }).populate("owner").populate("participants")
         return userregs
       }
       else{
         return AuthenticationError
       }
-    }
+    },
+
   }
 };
 

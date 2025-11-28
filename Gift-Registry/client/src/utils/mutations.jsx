@@ -30,7 +30,10 @@ export const ADD_REGISTRY = gql`
             title
             occasion
             valid_to
-            participants
+            participants {
+            _id
+            userName
+            }
             owner {
             _id
             userName
@@ -51,7 +54,10 @@ export const REMOVE_REGISTRY = gql`
             userName
             password
             }
-            participants
+            participants {
+            _id
+            userName
+            }
             general_items
             specific_items {
             item_type
@@ -63,3 +69,4 @@ export const REMOVE_REGISTRY = gql`
         }
     }
 `;
+

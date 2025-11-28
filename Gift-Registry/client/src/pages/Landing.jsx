@@ -73,7 +73,6 @@ export function Landing () {
             <form id='newUserForm' onSubmit={handleFormSubmit}>
                 <input type="text" name='username' value={inputs.namey} onChange={handleInputChange}/>
                 <input type="text" name='password' value={inputs.pword} onChange={handleInputChange}/>
-                <button type='submit'>Submit</button>
             </form>
         </div>
     )
