@@ -4,15 +4,21 @@ import { useQuery, useMutation } from "@apollo/client/react";
 import { useContext, useEffect, useState } from "react";
 import { PageContext } from "../utils/pagecontext";
 import AuthService from "../utils/auth";
+// import { InnerModal } from "../components/innermodal";
+import { UserListModal } from "../components/userListModal";
+// import { ToastContainer, toast } from 'react-toastify';
 
 export function ActiveReg () {
     const {loading, error, data} = useQuery(FIND_USER_LISTS, {variables: {ownerId: AuthService.getProfile().data._id}});
     const [regList, setRegList] = useState();
     const [RemoveSingle, {data: data2, loading: loading2, error: error2}] = useMutation(REMOVE_REGISTRY);
+    const [inviteeArray, setInviteeArray] = useState()
 
     const {setContextValue } = useContext(PageContext);
 
-    console.log(data, loading, error)
+    useEffect(() => {
+        console.log(inviteeArray)
+    },[inviteeArray])
 
     useEffect(() => {
         setContextValue('Registries')
@@ -21,6 +27,7 @@ export function ActiveReg () {
             setRegList(data.getUserLists)
         }
     },[data])
+
 
     const deleteReg = async(id) => {
         const userID = AuthService.getProfile().data._id;
@@ -39,6 +46,12 @@ export function ActiveReg () {
         });
     });
 
+    const updateInvites = (array) => {
+        console.log(array)
+        setInviteeArray(array)
+        // toast(`are you sure you would like to send invites to ${array}?`)
+    }
+
   
     return (
         <div>
@@ -47,38 +60,8 @@ export function ActiveReg () {
                 <h2>Please Wait</h2>              
                         :
                 <div>
-                    {/* {
-                        regList.map(single => (
-                            <div>
-                                { single.owner._id === AuthService.getProfile().data._id ?
-                              <div class="row" key={single._id}>
-                                <div class="col s12 m6">
-                                <div class="card blue-grey darken-1">
-                                    <div class="card-content white-text">
-                                    <span class="card-title">{single.title}</span>
-                                    <p>Occasion: {single.occasion}</p>
-                                    <p>Owner: {single.owner.userName}</p>
-                                    <p>General Items: {single.general_items.length}</p>
-                                    <p>I am a very simple card. I am good at containing small bits of information.
-                                    I am convenient because I require little markup to use effectively.</p>
-                                    </div>
-                                    <div class="card-action">
-                                    <a href={`/singlecard/${single._id}`}>More Details</a>
-                                     <button class="btn waves-effect waves-light" type="submit" name="action" onClick={() => deleteReg(single._id)}>Remove
-                                        <i class="material-icons right">delete</i>
-                                    </button>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                            :
-                            <div></div>
-                            }
-                            </div>
-            
-                        ))
-                    } */}
-                   <a class="waves-effect waves-light btn" href="/new">Create New</a> 
+                    {/* <UserListModal sendinvite={updateInvites} /> */}
+                   <a class="waves-effect waves-light btn" href="/new">Create New</a>  
                    <ul class="collapsible">
                         <li>
                             <div class="collapsible-header" style={{backgroundColor: "rgba(84, 110, 122, 1)"}}>
@@ -103,12 +86,19 @@ export function ActiveReg () {
                                                         </div>
                                                         <div class="card-action">
                                                         <a href={`/singlecard/${single._id}`}>More Details</a>
-                                                        <button class="btn waves-effect waves-light" type="submit" name="action" onClick={() => deleteReg(single._id)}>Remove
+                                                        <button  style={{marginBottom: 20}} class="btn waves-effect waves-light" type="submit" name="action" onClick={() => deleteReg(single._id)}>Remove
                                                             <i class="material-icons right">delete</i>
                                                         </button>
+                                                        <br />
+                                                        {/* <button class="btn waves-effect waves-light" type="submit" name="action" onClick={() => deleteReg(single._id)}>Invite Others
+                                                            <i class="material-icons right">person add</i>
+                                                        </button> */}
+                                                        <UserListModal sendinvite={updateInvites} />
+
                                                         </div>
                                                     </div>
                                                     </div>
+
                                                 </div>
                                                 :
                                                 <div></div>

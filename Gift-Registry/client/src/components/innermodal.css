@@ -1,0 +1,7 @@
+#allUsers  .active {
+    color: green;
+}
+
+#allUsers > li {
+    width: 150px
+}
