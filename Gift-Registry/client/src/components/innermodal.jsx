@@ -3,12 +3,10 @@ import { QUERY_ALL } from "../utils/queries";
 import { useState, useRef} from "react"
 import './innermodal.css'
 
-export function InnerModal ({sendinvite}) {
+export function InnerModal ({sendinvite, regid}) {
     // const [userToInvite, setUserToInvite] = useState([])
     const {data, error, loading} = useQuery(QUERY_ALL);
     const userToInvite = useRef([]);
-
-    // console.log(userToInvite)
 
     $(document).ready(function(){
     $('.modal').modal({
@@ -26,6 +24,13 @@ export function InnerModal ({sendinvite}) {
            const userIndex = userToInvite.current.indexOf(e.target.id)
            userToInvite.current.splice(userIndex, 1)
         }
+    }
+
+    const sendTheInvite = () => {
+        const dataSent = {  user: userToInvite.current,
+                            register: regid
+                        };
+        sendinvite(dataSent)
     }
 
     return (
@@ -51,7 +56,7 @@ export function InnerModal ({sendinvite}) {
                     </ul>
                 </div>
                 <div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat" onClick={()=>sendinvite(userToInvite.current)}>Agree</a>
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat" onClick={sendTheInvite}>Agree</a>
                 </div>
             </div>
             </div>

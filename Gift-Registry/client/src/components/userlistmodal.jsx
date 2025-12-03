@@ -1,6 +1,6 @@
 import { InnerModal } from "./innermodal"
 
-export function UserListModal ({sendinvite}) {
+export function UserListModal ({sendinvite, regid}) {
 
     // $(document).ready(function(){
     // $('.modal').modal({
@@ -9,6 +9,6 @@ export function UserListModal ({sendinvite}) {
     // });
 
     return (
-        <InnerModal sendinvite={sendinvite} />
+        <InnerModal sendinvite={sendinvite} regid={regid}/>
     )
 }

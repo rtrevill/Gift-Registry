@@ -6,10 +6,10 @@ const inviteSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User",
     },
-    registries: [{
+    registries: {
         type: Schema.Types.ObjectId,
         ref: "Registry"
-    }]
+    }
 });
 
 const Invites = mongoose.model("Invites", inviteSchema);

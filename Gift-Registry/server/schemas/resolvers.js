@@ -72,16 +72,17 @@ const resolvers = {
 
     sendInvite: async(parent, {hostId, guestId, regId}) => {
       try{
-        const makeInvite =  await Invites.create({host_user: hostId, registries: regId})
-        .then(async(result) => {
-          const addToInvitee = await User.findByIdAndUpdate(guestId, {$push: {invites: result._id}}, {new: true})
-          return addToInvitee
-        })
-        .catch(err => {
-          console.error('Error creating document', err)
-        })
-
-        return makeInvite
+        for (const individ of guestId){
+          await Invites.create({host_user: hostId, registries: regId})
+          .then(async(result) => {
+            const addToInvitee = await User.findByIdAndUpdate(individ, {$push: {invites: result._id}})
+            return addToInvitee
+          })
+          .catch(err => {
+            console.error('Error creating document', err)
+          })
+        }
+        return "Success"
       }catch(err){
         return err
       }

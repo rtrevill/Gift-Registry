@@ -1,6 +1,5 @@
 import { useEffect, useContext } from "react";
 import { PageContext } from "../utils/pagecontext";
-import { useMutation } from "@apollo/client/react";
 
 export function Home () {
     const { setContextValue } = useContext(PageContext)

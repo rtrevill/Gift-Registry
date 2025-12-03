@@ -4,7 +4,6 @@ import { UserContext } from '../utils/pagecontext';
 
 export function FinalSignoff({closeToast}: ToastContentProps) {
         const value: Array<string> = useContext(UserContext);
-        console.log(value[0]);
 
         return (
             <div>

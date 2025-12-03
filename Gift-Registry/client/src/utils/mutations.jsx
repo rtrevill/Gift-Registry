@@ -70,3 +70,9 @@ export const REMOVE_REGISTRY = gql`
     }
 `;
 
+export const SEND_INVITES = gql`
+    mutation sendInvite($hostId: ID, $guestId: [ID], $regId: ID) {
+        sendInvite(hostId: $hostId, guestId: $guestId, regId: $regId)
+    }
+`; 
+
