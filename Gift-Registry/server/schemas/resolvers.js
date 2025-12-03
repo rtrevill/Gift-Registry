@@ -18,6 +18,15 @@ const resolvers = {
       return await Registry.find({}).populate('owner')
     },
 
+    getInvites: async(parent, {ownerId}) => {
+      const userinvites = await User.findById(ownerId)
+                                    .populate({path: "invites", 
+                                      populate: [
+                                        {path: "registries", model: "Registry"},
+                                        {path: "host_user", model: "User"}]});
+      return userinvites;
+    },
+
     getUserLists: async(parent, {ownerId}) => {
       console.log(ownerId)
       const userregs = await Registry.find({ "$or": [ { "owner": ownerId }, { "participants": ownerId } ] }).populate("owner").populate("participants")

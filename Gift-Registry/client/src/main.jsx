@@ -10,6 +10,7 @@ import { ErrorPage } from './pages/errorpage.jsx';
 import { ActiveReg } from './pages/activeregistries.jsx';
 import { SingleRegistry } from './pages/singleregistry.jsx';
 import { CreateNewReg } from './pages/createnewreg.jsx';
+import { ReviewInvites } from './pages/reviewinvites.jsx';
 
 
 const router = createBrowserRouter([
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: 'new',
         element: <CreateNewReg />
+      },
+      {
+        path: 'review',
+        element: <ReviewInvites />
       },
     ]
   }

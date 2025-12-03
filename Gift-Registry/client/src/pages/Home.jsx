@@ -1,5 +1,6 @@
 import { useEffect, useContext } from "react";
 import { PageContext } from "../utils/pagecontext";
+import { Link } from "react-router-dom";
 
 export function Home () {
     const { setContextValue } = useContext(PageContext)

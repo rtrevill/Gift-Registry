@@ -37,20 +37,39 @@ export const QUERY_LISTS = gql`
 
 export const FIND_USER_LISTS = gql`
     query GetUserLists($ownerId: ID!) {
-    getUserLists(ownerId: $ownerId) {
-        _id
-        title
-        occasion
-        valid_to
-        owner {
-        _id
-        userName
+        getUserLists(ownerId: $ownerId) {
+            _id
+            title
+            occasion
+            valid_to
+            owner {
+            _id
+            userName
+            }
+            participants {
+            _id
+            userName
+            }
+            general_items
         }
-        participants {
-        _id
-        userName
-        }
-        general_items
     }
+`;
+
+export const GET_INVITES = gql`
+    query getInvites($ownerId: ID!) {
+        getInvites(ownerId: $ownerId) {
+            invites {
+            registries {
+                title
+                occasion
+                valid_to
+                _id
+            }
+            host_user {
+                userName
+                _id
+            }
+            }
+        }
     }
 `;

@@ -1,10 +1,16 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { PageContext } from "../utils/pagecontext";
+import { useQuery } from "@apollo/client/react";
+import { GET_INVITES } from "../utils/queries";
+import AuthService from "../utils/auth";
+import { Link } from "react-router-dom";
 
 export function Header ({handleLogout, user}) {
+    const {data, loading, error} = useQuery(GET_INVITES, {variables: {ownerId: AuthService.getProfile().data._id}})
     const [prevPage, setPrevPage] = useState('Landing');
 
     const { contextValue } = useContext(PageContext);
+    
 
     useEffect(() => { 
         $(`#${prevPage}`).removeClass("active")
@@ -19,11 +25,15 @@ export function Header ({handleLogout, user}) {
 
 
     return (
+        <div>
+              {
+                  loading ? <h2>Loading</h2> :
+                  error ? <hr>Error</hr> :
         <>
         <ul id="dropdown1" class="dropdown-content">
             <li><a href="" onClick={handleLogout}>Logout</a></li>
-            <li><a href="#!">two</a></li>
-            <li class="divider"></li>
+            <li><a href="/review">You Have {data.getInvites.invites.length} invites</a></li>
+            <li><Link to='/review' state={data.getInvites.invites}>Go to Invites</Link></li>
             <li><a href="#!">three</a></li>
         </ul>
           <nav>
@@ -47,5 +57,7 @@ export function Header ({handleLogout, user}) {
             <li><a href="mobile.html">data</a></li>
         </ul>
         </>
+              }      
+        </div>
     )
 }

@@ -47,6 +47,7 @@ const typeDefs = `
   type Query {
     getUsers: [Users]
     getLists: [Registry]
+    getInvites(ownerId: ID!): Users
     getUserLists(ownerId: ID!): [Registry]
   }
 
