@@ -116,6 +116,7 @@ function App() {
               handleLogout={handleLogout} 
               user={user}
               />
+              
             <Outlet />
           </PageContext.Provider>
         </>

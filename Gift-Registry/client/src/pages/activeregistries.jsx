@@ -2,23 +2,20 @@ import { FIND_USER_LISTS } from "../utils/queries";
 import { REMOVE_REGISTRY } from "../utils/mutations";
 import { useQuery, useMutation } from "@apollo/client/react";
 import { useContext, useEffect, useState } from "react";
-import { PageContext } from "../utils/pagecontext";
+import { PageContext, UserContext } from "../utils/pagecontext";
 import AuthService from "../utils/auth";
 // import { InnerModal } from "../components/innermodal";
 import { UserListModal } from "../components/userListModal";
-// import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast, Bounce, } from 'react-toastify';
+import { FinalSignoff } from "../components/toast";
 
 export function ActiveReg () {
     const {loading, error, data} = useQuery(FIND_USER_LISTS, {variables: {ownerId: AuthService.getProfile().data._id}});
     const [regList, setRegList] = useState();
     const [RemoveSingle, {data: data2, loading: loading2, error: error2}] = useMutation(REMOVE_REGISTRY);
-    const [inviteeArray, setInviteeArray] = useState()
+    const [inviteeArray, setInviteeArray] = useState(["single"])
 
     const {setContextValue } = useContext(PageContext);
-
-    useEffect(() => {
-        console.log(inviteeArray)
-    },[inviteeArray])
 
     useEffect(() => {
         setContextValue('Registries')
@@ -27,7 +24,6 @@ export function ActiveReg () {
             setRegList(data.getUserLists)
         }
     },[data])
-
 
     const deleteReg = async(id) => {
         const userID = AuthService.getProfile().data._id;
@@ -46,10 +42,29 @@ export function ActiveReg () {
         });
     });
 
+    const notify = (color) =>toast(<FinalSignoff miracle={"color"}/>, { 
+        onClose(reason){
+            switch(reason){
+                case "agree":
+                    console.log("Sending Back");
+                    break;
+                case "refuse":
+                    console.log("Ignoring");
+                    break;
+                default:
+                    console.log("Nothing");
+            }
+        }
+    });
+
+
     const updateInvites = (array) => {
-        console.log(array)
-        setInviteeArray(array)
-        // toast(`are you sure you would like to send invites to ${array}?`)
+        const tempArray = [...array];
+        // console.log(tempArray, array)
+        if(tempArray !== inviteeArray){
+            setInviteeArray(tempArray)
+            // console.log(inviteeArray)
+        }
     }
 
   
@@ -61,7 +76,21 @@ export function ActiveReg () {
                         :
                 <div>
                     {/* <UserListModal sendinvite={updateInvites} /> */}
-                   <a class="waves-effect waves-light btn" href="/new">Create New</a>  
+                   <a class="waves-effect waves-light btn" href="/new">Create New</a> 
+                   <button onClick={() => notify("Yellow")}>Notify</button> 
+                    <UserContext value={inviteeArray}>
+                        <ToastContainer 
+                            position="top-center"
+                            autoClose={false}
+                            newestOnTop={false}
+                            closeOnClick={false}
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            theme="dark"
+                            transition={Bounce}
+                        />
+                    </UserContext>
                    <ul class="collapsible">
                         <li>
                             <div class="collapsible-header" style={{backgroundColor: "rgba(84, 110, 122, 1)"}}>
@@ -90,8 +119,8 @@ export function ActiveReg () {
                                                             <i class="material-icons right">delete</i>
                                                         </button>
                                                         <br />
-                                                        {/* <button class="btn waves-effect waves-light" type="submit" name="action" onClick={() => deleteReg(single._id)}>Invite Others
-                                                            <i class="material-icons right">person add</i>
+                                                        {/* <button class="btn waves-effect waves-light" type="submit" name="action" onClick={notify}>Notify
+                                                            <i class="material-icons right">flag 2</i>
                                                         </button> */}
                                                         <UserListModal sendinvite={updateInvites} />
 
