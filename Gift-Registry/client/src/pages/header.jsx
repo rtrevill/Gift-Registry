@@ -32,7 +32,7 @@ export function Header ({handleLogout, user}) {
         <>
         <ul id="dropdown1" class="dropdown-content">
             <li><a href="" onClick={handleLogout}>Logout</a></li>
-            <li><a href="/review">You Have {data.getInvites.invites.length} invites</a></li>
+            <li><a href="">You Have {data.getInvites.invites.length} invites</a></li>
             <li><Link to='/review' state={data.getInvites.invites}>Go to Invites</Link></li>
             <li><a href="#!">three</a></li>
         </ul>

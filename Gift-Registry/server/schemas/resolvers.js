@@ -96,8 +96,23 @@ const resolvers = {
         return err
       }
 
-    }
+    },
 
+    refuseInvite: async(parent, {regId, inviteeId}) => {
+      let returningvalue
+      try {
+        await Invites.findByIdAndDelete(regId)
+        .then(async()=> {
+          const deleteIt = await User.findByIdAndUpdate(inviteeId, {$pull: {"invites": regId}}, {new: true})
+          returningvalue = deleteIt
+        })
+        if (returningvalue){
+          return returningvalue
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    }
   }
 };
 

@@ -57,6 +57,7 @@ const typeDefs = `
     addRegistry(title: String, occasion: String, valid: Date, owner: ID): Registry
     removeRegistry(regId: ID, ownerId: ID):[Registry]
     sendInvite(hostId: ID, guestId: [ID], regId: ID): String
+    refuseInvite(regId: ID, inviteeId: ID): Users
   }
 
 `;

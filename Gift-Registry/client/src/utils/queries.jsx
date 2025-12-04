@@ -59,6 +59,7 @@ export const GET_INVITES = gql`
     query getInvites($ownerId: ID!) {
         getInvites(ownerId: $ownerId) {
             invites {
+            _id
             registries {
                 title
                 occasion
