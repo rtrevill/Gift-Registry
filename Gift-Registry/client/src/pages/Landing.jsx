@@ -5,6 +5,8 @@ import { ADD_USER } from '../utils/mutations';
 import { useState, useEffect, useContext } from 'react';
 import { UserList } from '../components/userList';
 import { PageContext } from '../utils/pagecontext';
+import { useSelector, useDispatch } from 'react-redux';
+import { toralph, toanyone } from '../utils/currentUserSlice';
 
 
 export function Landing () {
@@ -28,7 +30,9 @@ export function Landing () {
         }
     },[data])
 
-    console.log(listData, data);
+    // console.log(listData, data);
+    const nameData = useSelector((state) => state.user.name)
+    const dispatch = useDispatch()
 
     const handleInputChange = (e) => {
         const {target} = e
@@ -40,15 +44,11 @@ export function Landing () {
         }
     }
 
-    const handleFormSubmit = async(e) => {
+    const handleFormSubmit = (e) => {
         e.preventDefault();
         try{
-            const submitUser = await addUser({variables: {
-                userName: inputs.namey,
-                password: inputs.pword
-            }})
-            console.log(submitUser.data.addUser)
-            setListData([...listData, submitUser.data.addUser])
+            const nameentered = document.getElementById("first_name").value
+            dispatch(toanyone(nameentered))
         }catch(err){
             console.log(err)
         }
@@ -58,13 +58,27 @@ export function Landing () {
     return (
         <div>
             <h2>Welcome to Gift Registry for all</h2>
+            <h3>Current name: {nameData}</h3>
             <UserList userDetails={listData}/>
-            <a class="waves-effect waves-light btn-large" href="/home" style={{marginLeft: 20, marginRight: 20}}>Login</a>
-            <a class="waves-effect waves-light btn-large" href="/home" style={{marginLeft: 20, marginRight: 20}}>Explore</a>
-            <form id='newUserForm' onSubmit={handleFormSubmit}>
+            {/* <a class="waves-effect waves-light btn-large" href="" style={{marginLeft: 20, marginRight: 20}} onClick={()=>dispatch(toralph())}>Ralph</a>
+            <a class="waves-effect waves-light btn-large" href="" style={{marginLeft: 20, marginRight: 20}}>Explore</a> */}
+            <button onClick={()=>dispatch(toralph())}>Ralph</button>
+            
+            {/* <form id='newUserForm' onSubmit={handleFormSubmit}>
                 <input type="text" name='username' value={inputs.namey} onChange={handleInputChange}/>
                 <input type="text" name='password' value={inputs.pword} onChange={handleInputChange}/>
-            </form>
+            </form> */}
+             <div class="row">
+    <form class="col s12" onSubmit={handleFormSubmit}>
+      <div class="row">
+        <div class="input-field col s6">
+          <input placeholder="" id="first_name" type="text" class="validate"/>
+          <label for="first_name">Enter Name</label>
+        </div>
+        <button type="submit">Send Name</button>
+      </div>
+    </form>
+  </div>
         </div>
     )
 };

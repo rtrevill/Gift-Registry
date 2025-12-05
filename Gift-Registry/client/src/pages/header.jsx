@@ -4,6 +4,8 @@ import { useQuery } from "@apollo/client/react";
 import { GET_INVITES } from "../utils/queries";
 import AuthService from "../utils/auth";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 
 export function Header ({handleLogout, user}) {
     const {data, loading, error} = useQuery(GET_INVITES, {variables: {ownerId: AuthService.getProfile().data._id}})
@@ -11,6 +13,7 @@ export function Header ({handleLogout, user}) {
 
     const { contextValue } = useContext(PageContext);
     
+    const currentState = useSelector((state) => state.user.name)
 
     useEffect(() => { 
         $(`#${prevPage}`).removeClass("active")
@@ -46,6 +49,7 @@ export function Header ({handleLogout, user}) {
                     <li id="Landing"><a href="/" >LandingPage</a></li>
                     <li id="Registries"><a href="/active">Registries</a></li>
                     <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
+                    <li>{currentState}</li>
                 </ul>
             </div>
         </nav>

@@ -10,6 +10,9 @@ import { HttpLink } from "@apollo/client/link/http";
 import { SetContextLink } from "@apollo/client/link/context";
 import { PageContext } from "./utils/pagecontext.jsx";
 
+import store from "./utils/reduxstore.jsx";
+import { Provider } from 'react-redux';
+
 const cache = new InMemoryCache();
 
 const storedCache = localStorage.getItem('apollo-cache');
@@ -112,12 +115,14 @@ function App() {
       {isLoggedIn ? (
         <>
           <PageContext.Provider value={{contextValue, setContextValue}}>
+            <Provider store={store}>
             <Header 
               handleLogout={handleLogout} 
               user={user}
               />
               
             <Outlet />
+            </Provider>
           </PageContext.Provider>
         </>
       ) : (
