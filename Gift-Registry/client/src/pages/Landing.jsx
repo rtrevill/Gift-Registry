@@ -6,7 +6,7 @@ import { useState, useEffect, useContext } from 'react';
 import { UserList } from '../components/userList';
 import { PageContext } from '../utils/pagecontext';
 import { useSelector, useDispatch } from 'react-redux';
-import { toralph, toanyone } from '../utils/currentUserSlice';
+import { toralph, toanyone, updateInvites } from '../utils/currentUserSlice';
 
 
 export function Landing () {
@@ -63,11 +63,6 @@ export function Landing () {
             {/* <a class="waves-effect waves-light btn-large" href="" style={{marginLeft: 20, marginRight: 20}} onClick={()=>dispatch(toralph())}>Ralph</a>
             <a class="waves-effect waves-light btn-large" href="" style={{marginLeft: 20, marginRight: 20}}>Explore</a> */}
             <button onClick={()=>dispatch(toralph())}>Ralph</button>
-            
-            {/* <form id='newUserForm' onSubmit={handleFormSubmit}>
-                <input type="text" name='username' value={inputs.namey} onChange={handleInputChange}/>
-                <input type="text" name='password' value={inputs.pword} onChange={handleInputChange}/>
-            </form> */}
              <div class="row">
     <form class="col s12" onSubmit={handleFormSubmit}>
       <div class="row">
@@ -78,6 +73,7 @@ export function Landing () {
         <button type="submit">Send Name</button>
       </div>
     </form>
+                <button onClick={()=>dispatch(updateInvites(["Yellow"]))}>Update Invites</button>
   </div>
         </div>
     )

@@ -79,9 +79,18 @@ export const SEND_INVITES = gql`
 export const DELETE_INVITE = gql`
     mutation refuseInvite($regId: ID, $inviteeId: ID) {
         refuseInvite(regId: $regId, inviteeId: $inviteeId) {
-            _id
             invites {
             _id
+            registries {
+                _id
+                title
+                occasion
+                valid_to
+            }
+            host_user {
+                _id
+                userName
+            }
             }
         }
     }

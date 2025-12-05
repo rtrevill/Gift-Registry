@@ -107,7 +107,6 @@ function App() {
   };
 
   const [contextValue, setContextValue] = useState('initial value');
-  // const contextData = {value: 5, setValue: 8};
 
 
   return (

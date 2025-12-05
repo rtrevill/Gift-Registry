@@ -4,7 +4,9 @@ import { useQuery } from "@apollo/client/react";
 import { GET_INVITES } from "../utils/queries";
 import AuthService from "../utils/auth";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateInvites } from '../utils/currentUserSlice';
+
 
 
 export function Header ({handleLogout, user}) {
@@ -12,14 +14,24 @@ export function Header ({handleLogout, user}) {
     const [prevPage, setPrevPage] = useState('Landing');
 
     const { contextValue } = useContext(PageContext);
+
+    const dispatch = useDispatch()
     
     const currentState = useSelector((state) => state.user.name)
+    const currentInvites = useSelector((state) => state.user.invites)
 
     useEffect(() => { 
         $(`#${prevPage}`).removeClass("active")
         setPrevPage(contextValue)
         $(`#${contextValue}`).addClass("active")
     },[contextValue])
+
+    useEffect(()=> {
+        if(data){
+            // console.log(data.getInvites.invites)
+            dispatch(updateInvites(data.getInvites.invites))
+        }
+    },[data])
 
     $( document ).ready(function() {
                 $(".dropdown-trigger").dropdown();
@@ -35,8 +47,8 @@ export function Header ({handleLogout, user}) {
         <>
         <ul id="dropdown1" class="dropdown-content">
             <li><a href="" onClick={handleLogout}>Logout</a></li>
-            <li><a href="">You Have {data.getInvites.invites.length} invites</a></li>
-            <li><Link to='/review' state={data.getInvites.invites}>Go to Invites</Link></li>
+            <li><a href="">You Have {currentInvites.length} invites</a></li>
+            <li><Link to='/review'>Go to Invites</Link></li>
             <li><a href="#!">three</a></li>
         </ul>
           <nav>

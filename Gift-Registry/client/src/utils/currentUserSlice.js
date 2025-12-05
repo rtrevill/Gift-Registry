@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const currentUserSlice = createSlice({
     name: "current_user",
-    initialState: {name: "Silliness"},
+    initialState: {name: "Silliness", invites: []},
     reducers: {
         updateuser: (state, action) => {
             let x = action.payload;
@@ -15,9 +15,13 @@ const currentUserSlice = createSlice({
         toanyone: (state, action) => {
             let z = action.payload
             state.name = z
+        },
+        updateInvites: (state, action) => {
+            const updatedArray = action.payload
+            state.invites = updatedArray;
         }
     }
 })
 
-export const { updateuser, toralph, toanyone} = currentUserSlice.actions;
+export const { updateuser, toralph, toanyone, updateInvites} = currentUserSlice.actions;
 export default currentUserSlice.reducer;

@@ -103,7 +103,10 @@ const resolvers = {
       try {
         await Invites.findByIdAndDelete(regId)
         .then(async()=> {
-          const deleteIt = await User.findByIdAndUpdate(inviteeId, {$pull: {"invites": regId}}, {new: true})
+                          const deleteIt = await User.findByIdAndUpdate(inviteeId, {$pull: {"invites": regId}}).populate({path: "invites", 
+                                      populate: [
+                                        {path: "registries", model: "Registry"},
+                                        {path: "host_user", model: "User"}]});;
           returningvalue = deleteIt
         })
         if (returningvalue){
