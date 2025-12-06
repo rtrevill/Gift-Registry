@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState, useRef } from "react";
-import { PageContext } from "../utils/pagecontext";
+import { useEffect } from "react";
+// import { PageContext } from "../utils/pagecontext";
 import { useQuery } from "@apollo/client/react";
 import { GET_INVITES } from "../utils/queries";
 import AuthService from "../utils/auth";
@@ -11,24 +11,22 @@ import { updateInvites } from '../utils/currentUserSlice';
 
 export function Header ({handleLogout, user}) {
     const {data, loading, error} = useQuery(GET_INVITES, {variables: {ownerId: AuthService.getProfile().data._id}})
-    const [prevPage, setPrevPage] = useState('Landing');
-
-    const { contextValue } = useContext(PageContext);
 
     const dispatch = useDispatch()
     
     const currentState = useSelector((state) => state.user.name)
     const currentInvites = useSelector((state) => state.user.invites)
+    const currentPage = useSelector((state) => state.page.page)
 
-    useEffect(() => { 
-        $(`#${prevPage}`).removeClass("active")
-        setPrevPage(contextValue)
-        $(`#${contextValue}`).addClass("active")
-    },[contextValue])
+    
+    const findElement = document.getElementById(currentPage)
+    if (findElement){
+        findElement.classList.add("active")    
+    }
 
+    
     useEffect(()=> {
         if(data){
-            // console.log(data.getInvites.invites)
             dispatch(updateInvites(data.getInvites.invites))
         }
     },[data])

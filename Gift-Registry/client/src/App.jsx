@@ -8,7 +8,7 @@ import {
 } from "@apollo/client";
 import { HttpLink } from "@apollo/client/link/http";
 import { SetContextLink } from "@apollo/client/link/context";
-import { PageContext } from "./utils/pagecontext.jsx";
+// import { PageContext } from "./utils/pagecontext.jsx";
 
 import store from "./utils/reduxstore.jsx";
 import { Provider } from 'react-redux';
@@ -106,14 +106,14 @@ function App() {
     setIsLoggedIn(false);
   };
 
-  const [contextValue, setContextValue] = useState('initial value');
+  // const [contextValue, setContextValue] = useState('initial value');
 
 
   return (
     <ApolloProvider client={client}>
       {isLoggedIn ? (
         <>
-          <PageContext.Provider value={{contextValue, setContextValue}}>
+          {/* <PageContext.Provider value={{contextValue, setContextValue}}> */}
             <Provider store={store}>
             <Header 
               handleLogout={handleLogout} 
@@ -122,7 +122,7 @@ function App() {
               
             <Outlet />
             </Provider>
-          </PageContext.Provider>
+          {/* </PageContext.Provider> */}
         </>
       ) : (
         <PleaseLogin setIsLoggedIn={setIsLoggedIn}/>

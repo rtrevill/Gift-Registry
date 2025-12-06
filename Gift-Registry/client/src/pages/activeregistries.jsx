@@ -1,13 +1,15 @@
 import { FIND_USER_LISTS } from "../utils/queries";
 import { REMOVE_REGISTRY, SEND_INVITES } from "../utils/mutations";
 import { useQuery, useMutation } from "@apollo/client/react";
-import { useContext, useEffect, useState, useRef } from "react";
-import { PageContext, UserContext } from "../utils/pagecontext";
+import { useEffect, useState, useRef } from "react";
+import { UserContext } from "../utils/pagecontext";
 import AuthService from "../utils/auth";
 // import { InnerModal } from "../components/innermodal";
 import { UserListModal } from "../components/userListModal";
 import { ToastContainer, toast, Bounce, } from 'react-toastify';
 import { FinalSignoff } from "../components/toast";
+import { useDispatch } from "react-redux";
+import { updatepage } from "../utils/pagesSlice";
 
 export function ActiveReg () {
     const {loading, error, data} = useQuery(FIND_USER_LISTS, {variables: {ownerId: AuthService.getProfile().data._id}});
@@ -17,10 +19,10 @@ export function ActiveReg () {
     const [inviteeArray, setInviteeArray] = useState(["single"])
     const currentSelectedReg = useRef('')
 
-    const { setContextValue } = useContext(PageContext);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        setContextValue('Registries')
+        dispatch(updatepage("Registries"))
         if(data){
             console.log(data)
             setRegList(data.getUserLists)

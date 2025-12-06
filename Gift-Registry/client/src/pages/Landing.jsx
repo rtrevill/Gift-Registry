@@ -4,9 +4,9 @@ import { QUERY_ALL } from '../utils/queries';
 import { ADD_USER } from '../utils/mutations';
 import { useState, useEffect, useContext } from 'react';
 import { UserList } from '../components/userList';
-import { PageContext } from '../utils/pagecontext';
 import { useSelector, useDispatch } from 'react-redux';
 import { toralph, toanyone, updateInvites } from '../utils/currentUserSlice';
+import { updatepage } from '../utils/pagesSlice';
 
 
 export function Landing () {
@@ -17,22 +17,19 @@ export function Landing () {
         pword: '', 
     });
     const [listData, setListData] = useState()
-    const { setContextValue } = useContext(PageContext);
 
 
-    useEffect(() => {
-        setContextValue('Landing');
-    },[])
+    const nameData = useSelector((state) => state.user.name)
+    const dispatch = useDispatch()
+
     
     useEffect(()=>{
+        dispatch(updatepage("Landing"))
         if (data){
             setListData(data.getUsers);
         }
     },[data])
 
-    // console.log(listData, data);
-    const nameData = useSelector((state) => state.user.name)
-    const dispatch = useDispatch()
 
     const handleInputChange = (e) => {
         const {target} = e

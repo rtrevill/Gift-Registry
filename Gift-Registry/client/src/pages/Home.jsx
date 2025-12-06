@@ -1,12 +1,13 @@
-import { useEffect, useContext } from "react";
-import { PageContext } from "../utils/pagecontext";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { updatepage } from "../utils/pagesSlice";
+
 
 export function Home () {
-    const { setContextValue } = useContext(PageContext)
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        setContextValue('home')
+        dispatch(updatepage("home"))
     },[])
 
 
