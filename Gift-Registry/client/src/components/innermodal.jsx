@@ -1,10 +1,11 @@
 import { useQuery } from "@apollo/client/react";
 import { QUERY_ALL } from "../utils/queries";
-import { useState, useRef} from "react"
+import { useRef} from "react"
+import AuthService from '../utils/auth'
+
 import './innermodal.css'
 
-export function InnerModal ({sendinvite, regid}) {
-    // const [userToInvite, setUserToInvite] = useState([])
+export function InnerModal ({sendinvite}) {
     const {data, error, loading} = useQuery(QUERY_ALL);
     const userToInvite = useRef([]);
 
@@ -13,6 +14,8 @@ export function InnerModal ({sendinvite, regid}) {
         dismissible: false,
     });
     });
+
+    const currentUserId = AuthService.getProfile().data._id;
 
     const clickUser = (e) => {
         e.preventDefault();
@@ -26,11 +29,21 @@ export function InnerModal ({sendinvite, regid}) {
         }
     }
 
-    const sendTheInvite = () => {
+    const clearClasses = () => {
+        const elementsWithActive = document.querySelectorAll('.active');
+        elementsWithActive.forEach(element => {
+            element.classList.remove('active')
+        })
+        sendTheInvite()
+    }
+
+    const sendTheInvite = () => {       
         const dataSent = {  user: userToInvite.current,
-                            register: regid
                         };
-        sendinvite(dataSent)
+        userToInvite.current = [];
+        if (dataSent && userToInvite.current.length===0){
+            sendinvite(dataSent)
+        }
     }
 
     return (
@@ -40,14 +53,12 @@ export function InnerModal ({sendinvite, regid}) {
             loading ? 
             <h2>Loading</h2> :
             <div>
-            <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Invite Others <i class="material-icons right">person add</i></a>
-
             <div id="modal1" class="modal modal-fixed-footer">
                 <div class="modal-content">
                 <h4 style={{color: "black"}}>Choose Invitees</h4>
                     <ul id="allUsers">
                         {
-                            data.getUsers.map((user) => 
+                            data.getUsers.filter(singUser => singUser._id !== currentUserId).map((user) => 
                             <li key={user._id} style={{marginLeft: "auto", marginRight: "auto"}}>
                                 <a onClick={clickUser} id={user._id} >{user.userName}</a>
                             </li>
@@ -56,15 +67,12 @@ export function InnerModal ({sendinvite, regid}) {
                     </ul>
                 </div>
                 <div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat" onClick={sendTheInvite}>Agree</a>
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat" onClick={clearClasses}>Agree</a>
                 </div>
             </div>
             </div>
 
         }
-
-
-
         </>
     )
 }

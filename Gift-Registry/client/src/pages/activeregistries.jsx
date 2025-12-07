@@ -4,12 +4,13 @@ import { useQuery, useMutation } from "@apollo/client/react";
 import { useEffect, useState, useRef } from "react";
 import { UserContext } from "../utils/pagecontext";
 import AuthService from "../utils/auth";
-// import { InnerModal } from "../components/innermodal";
-import { UserListModal } from "../components/userListModal";
+import { InnerModal } from "../components/innermodal";
+// import { UserListModal } from "../components/userListModal";
 import { ToastContainer, toast, Bounce, } from 'react-toastify';
 import { FinalSignoff } from "../components/toast";
 import { useDispatch } from "react-redux";
 import { updatepage } from "../utils/pagesSlice";
+import { Link } from "react-router-dom";
 
 export function ActiveReg () {
     const {loading, error, data} = useQuery(FIND_USER_LISTS, {variables: {ownerId: AuthService.getProfile().data._id}});
@@ -37,6 +38,10 @@ export function ActiveReg () {
                 guestId: inviteeArray,
                 regId: currentSelectedReg.current
             }})
+            .then (() => {
+                currentSelectedReg.current = '';
+                setInviteeArray(["single"])
+            })
         }catch(err){
             console.error(err)
         }
@@ -84,15 +89,30 @@ export function ActiveReg () {
 
 
     const updateInvites = (object) => {
-        currentSelectedReg.current = object.register;
         const tempArray = [...object.user];
-        console.log(tempArray, object.register)
         if(tempArray !== inviteeArray){
             setInviteeArray(tempArray)
-            // console.log(inviteeArray)
         }
     }
 
+    const updateRefs = (id) => {
+        console.log(id);
+        currentSelectedReg.current = id;
+        if(currentSelectedReg.current){
+            window.location.href='#modal1'
+        }
+
+    }
+
+    const trialButton = (id) => {
+        console.log(id)
+        currentSelectedReg.current = id;
+        if(currentSelectedReg.current){
+            document.getElementById(`register${id}`).click()
+        }
+
+
+    }
   
     return (
         <div>
@@ -145,11 +165,9 @@ export function ActiveReg () {
                                                             <i class="material-icons right">delete</i>
                                                         </button>
                                                         <br />
-                                                        {/* <button class="btn waves-effect waves-light" type="submit" name="action" onClick={notify}>Notify
-                                                            <i class="material-icons right">flag 2</i>
-                                                        </button> */}
-                                                        <UserListModal sendinvite={updateInvites} regid={single._id}/>
-
+                                                        <button onClick={()=>trialButton(single._id)}>Invite Others<i class="material-icons right">person add</i></button>
+                                                        {/* <a id={`register${single._id}`} class="waves-effect waves-light btn modal-trigger" href="#modal1">Invite Others <i class="material-icons right">person add</i></a> */}
+                                                        <a id={`register${single._id}`} class="waves-effect waves-light btn modal-trigger" href="#modal1" style={{display: 'none'}}></a>
                                                         </div>
                                                     </div>
                                                     </div>
@@ -161,6 +179,8 @@ export function ActiveReg () {
                                         </div>                       
                                     ))
                                 }
+                                <InnerModal sendinvite={updateInvites}/>
+
                             </div>
                         </li>
                         <li>

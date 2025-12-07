@@ -1,14 +1,10 @@
-import { InnerModal } from "./innermodal"
+// import { InnerModal } from "./innermodal"
 
-export function UserListModal ({sendinvite, regid}) {
+// export function UserListModal ({sendinvite, regid}) {
+//     const regId = regid;
+//     const sendInvite = sendinvite;
 
-    // $(document).ready(function(){
-    // $('.modal').modal({
-    //     dismissible: false,
-    // });
-    // });
-
-    return (
-        <InnerModal sendinvite={sendinvite} regid={regid}/>
-    )
-}
+//     return (
+//         <InnerModal sendinvite={sendInvite} regid={regId}/>
+//     )
+// }
