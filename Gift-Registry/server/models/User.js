@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+require('mongoose-type-email');
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -10,6 +11,12 @@ const userSchema = new Schema({
     required: true,
     trim: true,
     unique: true,
+  },
+  firstName: {
+    Type: String
+  },
+  lastName: {
+    type: String
   },
   password: {
     type: String,
@@ -37,7 +44,13 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Invites"
   }],
-  
+  emailAddress: {type: mongoose.SchemaTypes.Email,
+                  required: true,
+                  unique: true,
+                  trim: true,
+                  lowercase: true
+  },
+
 });
 
 // Pseudo to help implement ABOVE SYSTEM:

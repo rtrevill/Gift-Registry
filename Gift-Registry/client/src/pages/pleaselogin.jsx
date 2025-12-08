@@ -3,11 +3,15 @@ import { useMutation } from "@apollo/client/react";
 import { LOGIN_USER } from "../utils/mutations";
 import { useNavigate } from 'react-router-dom';
 import AuthService from '../utils/auth';
+import { CreateUser } from "./createuser";
+import { LoginForm } from "../components/loginform";
+import './pleaselogin.css';
 
 export function PleaseLogin ({setIsLoggedIn}) {
     const [login, {error, data}] = useMutation(LOGIN_USER);
     const [username, setUsername] = useState('');
     const [pword, setPword] = useState('');
+    const [newUser, setNewUser] = useState(false);
 
     const navigate = useNavigate();
 
@@ -57,8 +61,20 @@ export function PleaseLogin ({setIsLoggedIn}) {
 
     return (
         <div>
-            {/* <h1>Please Login</h1> */}
-            <div style={{width: '400px', marginLeft: 'auto', marginRight: 'auto'}}>
+            {
+                newUser ? 
+                <CreateUser 
+                    swapUser={setNewUser}
+                /> :
+                <LoginForm 
+                    handleFormSubmit={handleFormSubmit}
+                    username={username}
+                    handleInputChange={handleInputChange}
+                    pword={pword}
+                    swapUser={setNewUser}
+                />
+            }
+            {/* <div style={{width: '400px', marginLeft: 'auto', marginRight: 'auto'}}>
                 <form action="" onSubmit={handleFormSubmit}>
                     <label for="loginName" style={{fontSize: 20}}>UserName</label>
                     <input 
@@ -82,7 +98,10 @@ export function PleaseLogin ({setIsLoggedIn}) {
                         <i class="material-icons right">send</i>
                     </button>
                 </form>
-            </div>
+                <div style={{marginTop: 20}}>
+                    <a id="newuser">New User?</a>
+                </div>
+            </div> */}
         </div>
     )
 };

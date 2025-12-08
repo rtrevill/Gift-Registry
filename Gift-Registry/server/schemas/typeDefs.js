@@ -10,8 +10,11 @@ const typeDefs = `
   type Users {
     _id: ID
     userName: String!
+    firstName: String
+    lastName: String
     password: String!
     invites: [Invites]
+    emailAddress: String
   }
 
   type Auth {
