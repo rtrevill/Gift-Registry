@@ -115,7 +115,30 @@ const resolvers = {
       } catch (error) {
         console.error(error)
       }
-    }
+    },
+
+    acceptInvite: async(parent, {userId, registryId, inviteId}) => {
+      let confirmation
+      try {
+        await Registry.findByIdAndUpdate(registryId, {$push: {"participants": userId}})
+        .then(async(response) => {
+          await User.findByIdAndUpdate(userId, {$pull: {"invites": inviteId}})
+        })
+        .then(async(response) => {
+          await Invites.findByIdAndDelete(inviteId)
+        })
+        .then(()=>{
+          confirmation = "All Done"
+        })
+        if(confirmation){
+          return confirmation
+        }       
+      } catch (error) {
+        console.error(error)
+        return error
+      }
+    },
+
   }
 };
 

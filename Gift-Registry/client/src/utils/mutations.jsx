@@ -96,3 +96,9 @@ export const DELETE_INVITE = gql`
     }
 `;
 
+export const ACCEPT_INVITE = gql`
+    mutation acceptInvite($userId: ID, $registryId: ID, $inviteId: ID) {
+        acceptInvite(userId: $userId, registryId: $registryId, inviteId: $inviteId)
+    }
+`;
+

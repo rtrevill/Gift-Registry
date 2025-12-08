@@ -1,13 +1,14 @@
 // import { useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client/react";
-import { DELETE_INVITE } from "../utils/mutations";
+import { DELETE_INVITE, ACCEPT_INVITE } from "../utils/mutations";
 import AuthService from '../utils/auth';
 import { useSelector, useDispatch } from "react-redux";
-import { updateInvites } from '../utils/currentUserSlice'
+import { updateInvites, removesingleinvite } from '../utils/currentUserSlice'
 
 
 export function ReviewInvites () {
     const [DeleteInvite, {data, loading, error}] = useMutation(DELETE_INVITE);
+    const [ApproveInvite, {data: data2, loading: loading2, error: error3}] = useMutation(ACCEPT_INVITE);
 
     const user = AuthService.getProfile().data._id;
 
@@ -19,6 +20,22 @@ export function ReviewInvites () {
         const postUser = await DeleteInvite({variables: {regId, inviteeId: user}})
         dispatch(updateInvites(postUser.data.refuseInvite.invites))
     }
+
+    const acceptInvite = async({registryId, inviteId}) => {
+        try {
+            await ApproveInvite({variables: {   userId: user,
+                                                registryId,
+                                                inviteId
+                                            }})
+            .then((response) =>{
+                dispatch(removesingleinvite(inviteId));
+                console.log(response)
+            })
+
+        } catch (error) {
+            console.error(error)
+        }
+    };
 
     return (
         <div>
@@ -38,7 +55,7 @@ export function ReviewInvites () {
                     </div>
                     <div class="card-action">
                     <a class="waves-effect waves-light btn" style={{width: 120, marginRight: 10}} onClick={() => deleteFunction(invite._id)}><i class="material-icons right">close</i>Refuse</a>
-                    <a class="waves-effect waves-light btn" style={{width: 120, marginLeft: 10}}><i class="material-icons right">check</i>Accept</a>
+                    <a class="waves-effect waves-light btn" style={{width: 120, marginLeft: 10}} onClick={() => acceptInvite({inviteId: invite._id, registryId: invite.registries._id})}><i class="material-icons right">check</i>Accept</a>
                     </div>
                 </div>
                 </div>

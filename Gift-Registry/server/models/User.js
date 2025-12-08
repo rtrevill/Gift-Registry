@@ -36,7 +36,8 @@ const userSchema = new Schema({
   invites: [{
     type: Schema.Types.ObjectId,
     ref: "Invites"
-  }]
+  }],
+  
 });
 
 // Pseudo to help implement ABOVE SYSTEM:

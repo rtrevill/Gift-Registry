@@ -6,7 +6,7 @@ const currentUserSlice = createSlice({
     reducers: {
         updateuser: (state, action) => {
             let x = action.payload;
-            state.value = x
+            state.name = x
         },
         toralph: (state) => {
             let y = "Ralph"
@@ -19,9 +19,15 @@ const currentUserSlice = createSlice({
         updateInvites: (state, action) => {
             const updatedArray = action.payload
             state.invites = updatedArray;
+        },
+        removesingleinvite: (state, action) => {
+            let invitescopy = [...state.invites]
+            let indexnum = invitescopy.indexOf(action.payload)
+            invitescopy.splice(indexnum, 1)
+            state.invites = invitescopy;
         }
     }
 })
 
-export const { updateuser, toralph, toanyone, updateInvites} = currentUserSlice.actions;
+export const { updateuser, toralph, toanyone, updateInvites, removesingleinvite} = currentUserSlice.actions;
 export default currentUserSlice.reducer;
