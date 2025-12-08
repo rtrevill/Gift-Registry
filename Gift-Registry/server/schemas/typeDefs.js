@@ -14,7 +14,7 @@ const typeDefs = `
     lastName: String
     password: String!
     invites: [Invites]
-    emailAddress: String
+    emailAddress: String!
   }
 
   type Auth {
@@ -55,7 +55,7 @@ const typeDefs = `
   }
 
   type Mutation {
-    addUser(userName: String, password: String): Users! 
+    addUser(userName: String, firstName: String, lastName: String, password: String, emailAddress: String): Users! 
     login(input: LoginInput): Auth
     addRegistry(title: String, occasion: String, valid: Date, owner: ID): Registry
     removeRegistry(regId: ID, ownerId: ID):[Registry]

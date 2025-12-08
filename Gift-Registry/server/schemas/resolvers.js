@@ -3,6 +3,7 @@ const { DateConversion } = require('../utils/dateconversion');
 const { User, Registry, Invites } = require('../models');
 
 const { signToken, AuthenticationError } = require("../utils/auth");
+const { GraphQLError } = require('graphql')
 // const { GET_USER_LISTS } = require('../../client/src/utils/mutations');
 
 
@@ -39,8 +40,25 @@ const resolvers = {
 
   Mutation: {
 
-    addUser: async(parent, {userName, password}) => {
-      return await User.create({userName, password})
+    addUser: async(parent, {userName, firstName, lastName, password, emailAddress}) => {
+      try {
+        const validateEmail = await User.find({ "$or": [ { emailAddress }, { userName } ] })
+        if (validateEmail.length === 0){
+          return await User.create({userName, firstName, lastName, password, emailAddress})
+        }
+        else{
+          const emailCount = validateEmail.filter((entry) => entry.emailAddress === emailAddress)
+          switch (emailCount.length){
+            case 0:
+              throw new GraphQLError("Username already registered", {extensions: {code: 'UNAUTHENTICATED',}});
+              break;
+            default:
+                throw new GraphQLError("Email address already registered", {extensions: {code: 'UNAUTHENTICATED',}});
+          }
+        }
+      } catch (error) {
+        return error
+      }
     },
 
     login: async(parent, {input: { userName, password}}) => {

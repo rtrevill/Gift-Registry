@@ -13,7 +13,7 @@ const userSchema = new Schema({
     unique: true,
   },
   firstName: {
-    Type: String
+    type: String
   },
   lastName: {
     type: String
@@ -44,7 +44,7 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Invites"
   }],
-  emailAddress: {type: mongoose.SchemaTypes.Email,
+  emailAddress: {type: String,
                   required: true,
                   unique: true,
                   trim: true,
