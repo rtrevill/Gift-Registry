@@ -1,6 +1,7 @@
 import { useMutation } from "@apollo/client/react";
 import { ADD_USER } from "../utils/mutations";
 import { ToastContainer, toast } from 'react-toastify';
+import { CodeCheckModal } from "../components/codecheckmodal";
 
 export function CreateUser ({swapUser}) {
     const [submitUser, {data, loading, error}] = useMutation(ADD_USER);
@@ -58,7 +59,8 @@ export function CreateUser ({swapUser}) {
             <ToastContainer 
                 autoClose={3000}
                 hideProgressBar={true}
-            />
+            />   
+            <CodeCheckModal />      
              <div class="row">
                 <form class="col s12" onSubmit={checkAndSubmit}>
                     <div class="row">

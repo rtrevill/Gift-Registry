@@ -50,6 +50,10 @@ const userSchema = new Schema({
                   trim: true,
                   lowercase: true
   },
+  verified: {
+    type: Boolean,
+    default: false,
+  }
 
 });
 

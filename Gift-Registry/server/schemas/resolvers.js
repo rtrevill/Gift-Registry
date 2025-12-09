@@ -4,6 +4,7 @@ const { User, Registry, Invites } = require('../models');
 
 const { signToken, AuthenticationError } = require("../utils/auth");
 const { GraphQLError } = require('graphql')
+const nodemailer = require('nodemailer');
 // const { GET_USER_LISTS } = require('../../client/src/utils/mutations');
 
 
@@ -33,6 +34,39 @@ const resolvers = {
       const userregs = await Registry.find({ "$or": [ { "owner": ownerId }, { "participants": ownerId } ] }).populate("owner").populate("participants")
       return userregs
     },
+
+    getPassword: async() => {
+
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.mail.yahoo.com',
+        port: 465,
+        service: 'yahoo',
+        secure: 'false',
+        auth: {
+          user: 'rtrevill98@myyahoo.com',
+          pass: process.env.EMAIL_PASSWORD
+        },
+        debug: false,
+        logger: true
+      });
+
+      async function main(){
+        const info = await transporter.sendMail({
+          from: '"Zippy McZip"<rtrevill98@myyahoo.com>',
+          to: "rtrevill@hotmail.com",
+          subject: "First Email",
+          text: "Welcome to the revolution baby!",
+          html: '<a href="http://localhost:3000/home">Click me</a>',
+        });
+
+        console.log("Message sent: %s", info.messageId);
+      }
+
+      main().catch(console.error);
+
+      return "Email_sent"
+
+    }
 
 
 

@@ -52,6 +52,7 @@ const typeDefs = `
     getLists: [Registry]
     getInvites(ownerId: ID!): Users
     getUserLists(ownerId: ID!): [Registry]
+    getPassword: String
   }
 
   type Mutation {
