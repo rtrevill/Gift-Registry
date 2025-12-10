@@ -1,14 +1,64 @@
-import { useMutation } from "@apollo/client/react";
+import { useMutation, useLazyQuery } from "@apollo/client/react";
 import { ADD_USER } from "../utils/mutations";
+import { GET_PASSCODE } from "../utils/queries";
 import { ToastContainer, toast } from 'react-toastify';
 import { CodeCheckModal } from "../components/codecheckmodal";
+import { useState, useRef, useEffect } from "react";
+import md5 from 'md5';
 
 export function CreateUser ({swapUser}) {
     const [submitUser, {data, loading, error}] = useMutation(ADD_USER);
+    const [getCode, {loading: loading2, data: data2, error: error2}] = useLazyQuery(GET_PASSCODE);
+    const [verified, setVerified] = useState(false)
+    const [tempNumber, setTempNumber] = useState(0)
+    const rememberNum = useRef(0)
+    const remembertime = useRef(0)
 
     const notify = () => toast("New User Created Successfully, Please login", {
         onClose: ()=>swapUser(false)
     });
+
+    function openModal(){
+        document.getElementById('myModal').style.display = "block"
+    }
+
+    function submitCode(num){
+        const checkIt = md5(toString(num))
+        checkIt === rememberNum.current ? 
+        console.log("Yes-Siree Bob!!") :
+        console.log("No Dice :(")
+    }
+
+    const createRandomNumber = async() =>{
+        const createdNum = Math.floor(Math.random()*1000000)-1
+        const now = Date.now()
+        console.log(createdNum)
+        rememberNum.current = md5(toString(createdNum));
+        remembertime.current = now;
+        const emailtosend = document.getElementById('email_address').value
+        try {
+            await getCode({variables: { receiver: emailtosend,vernum: createdNum}})
+            data2
+            openModal()                
+        } catch (error) {
+            console.error(error)
+        }
+    }    
+
+
+    // useEffect(()=>{
+    //     if (tempNumber !== 0){
+    //         document.getElementById('myModal').style.display = "block"
+    //     }
+    //     else{
+    //         document.getElementById('myModal').style.display = "none"
+    //     }
+    // },[tempNumber])
+
+    const resetCode = (num) => {
+        console.log('cancelling')
+        setTempNumber(num)
+    }
     
     const checkAndSubmit = async(e) => {
         e.preventDefault();
@@ -60,7 +110,9 @@ export function CreateUser ({swapUser}) {
                 autoClose={3000}
                 hideProgressBar={true}
             />   
-            <CodeCheckModal />      
+            <CodeCheckModal code={submitCode}/> 
+            <button onClick={createRandomNumber}>check open modal and make num button</button>     
+            <button onClick={openModal}>Just Open</button>
              <div class="row">
                 <form class="col s12" onSubmit={checkAndSubmit}>
                     <div class="row">

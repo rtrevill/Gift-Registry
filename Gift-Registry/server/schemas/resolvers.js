@@ -1,4 +1,5 @@
 const { DateConversion } = require('../utils/dateconversion');
+const { Mailer } = require('../utils/mailer');
 
 const { User, Registry, Invites } = require('../models');
 
@@ -35,36 +36,16 @@ const resolvers = {
       return userregs
     },
 
-    getPassword: async() => {
-
-      const transporter = nodemailer.createTransport({
-        host: 'smtp.mail.yahoo.com',
-        port: 465,
-        service: 'yahoo',
-        secure: 'false',
-        auth: {
-          user: 'rtrevill98@myyahoo.com',
-          pass: process.env.EMAIL_PASSWORD
-        },
-        debug: false,
-        logger: true
-      });
-
-      async function main(){
-        const info = await transporter.sendMail({
-          from: '"Zippy McZip"<rtrevill98@myyahoo.com>',
-          to: "rtrevill@hotmail.com",
-          subject: "First Email",
-          text: "Welcome to the revolution baby!",
-          html: '<a href="http://localhost:3000/home">Click me</a>',
-        });
-
-        console.log("Message sent: %s", info.messageId);
-      }
-
-      main().catch(console.error);
-
-      return "Email_sent"
+    getPassword: async(parent, {receiver, vernum}) => {
+        try {
+          const subject = "Please verify your email";
+          const text = `To continue with your user creation on Gift_Registry, please verify your email address by entering the following number when prompted: ${vernum}` 
+          const html = `<p>To continue with your user creation on Gift_Registry, please verify your email address by entering the following number when prompted:</p><br/><h2>${vernum}</h2><p>This number is valid for 5 minutes</p>`
+          const sendmail = Mailer({receiver, subject, text, html})
+          return sendmail
+        } catch (error) {
+          return error
+        }
 
     }
 

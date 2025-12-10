@@ -74,3 +74,9 @@ export const GET_INVITES = gql`
         }
     }
 `;
+
+export const GET_PASSCODE = gql`
+    query getPassword($receiver: String!, $vernum: Int!) {
+        getPassword(receiver: $receiver, vernum: $vernum)
+    }
+`;
